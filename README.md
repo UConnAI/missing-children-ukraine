@@ -16,4 +16,5 @@ ReactJS for the map web app
 1. Install Nodejs/npm from https://nodejs.org/en/download/
 2. Verify installation in CMD by running `npm -v` or `node -v`
 3. Run `npm install -g create-react-app`
-4. Then pull this repository to work on this project
+4. Then pull this repository to work on awesome project with
+5. Make sure to run `npm i` inside the project folder of frontend
