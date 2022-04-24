@@ -5,20 +5,11 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='Text-Container'>
+        <p>Report missing children through Sylnishi to alert Europe's Missing Children experts who will use their contacts with the local authorities and the Interpol to help you find your child. </p>
+      </div>
+      <button className='Startbtn'>Let's Start</button>
+
     </div>
   );
 }
