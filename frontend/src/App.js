@@ -1,15 +1,15 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import FrontPage from './Pages/FrontPage';
+import FormChild from './Pages/FormChild';
 
 function App() {
   return (
     <div className="App">
-      <div className='Text-Container'>
-        <p>Report missing children through Sylnishi to alert Europe's Missing Children experts who will use their contacts with the local authorities and the Interpol to help you find your child. </p>
-      </div>
-      <button className='Startbtn'>Let's Start</button>
-
+      <FrontPage/>
+      <FormChild/>
+      {/*<Test></Test>*/}
     </div>
   );
 }
