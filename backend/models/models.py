@@ -6,7 +6,7 @@ from geopy.geocoders import Nominatim
 from timezonefinder import TimezoneFinder
 
 
-__blood_types = {"A-", "A+", "B+", "B-", "O-", "O+", "AB+", "AB-"}
+_blood_types = {"A-", "A+", "B+", "B-", "O-", "O+", "AB+", "AB-"}
 
 
 @dataclass
@@ -27,14 +27,14 @@ class Reporter:
     """
     first_name: str
     last_name: str
-    translated_name: Optional[str] = None
     date_of_birth: datetime
     nationality: str
     country_residence: str
     phone_number: str
+    relationship: str
+    translated_name: Optional[str] = None
     phone_number_2: Optional[str] = None
     email: Optional[str] = None
-    relationship: str
 
     @staticmethod
     def from_dict(d: Dict[str, Any]):
@@ -73,12 +73,12 @@ class Child:
 
     :param first_name: Child's first name
     :param last_name: Child's last name
-    :param  translated_name: Child's Tranaslated name to english
+    :param translated_name: Child's Tranaslated name to english
     :param date_birth:  Date of Birth of Child in python's datetime format
     :param gender: male or female only
     :param nationality: Nationality of the missing child
     :param blood _type:  blood type of child
-    :param reported:  .... forgot what we doing here
+    :param reported: If the loss had been reported to authorities
     :param last_seen: Dict of locations where the child was last seen
     :param comment: optional description of child (optional)
     :param picture: picture of child (Optional)
@@ -86,13 +86,13 @@ class Child:
 
     first_name: str
     last_name: str
-    translated_name: Optional[str] = None
     date_of_birth: datetime
     gender: str
     nationality: str
-    blood_type: Optional[str] = None
     reported: bool
     last_seen: Dict[str, Any]
+    translated_name: Optional[str] = None
+    blood_type: Optional[str] = None
     comment: Optional[str] = None
     picture: Optional[Any] = None
 
@@ -105,11 +105,13 @@ class Child:
         :return: a Child class with the information from the dictionary
         """
 
+        global _blood_types
+
         current_date = pytz.utc.localize(datetime.today())
 
         # Validate birth date
-        birth_date = pytz.utc.localize(datetime.strptime(d["date_birth"], "%Y/%m/%d"))
-        if birth_date > current_date:
+        date_of_birth = pytz.utc.localize(datetime.strptime(d["date_of_birth"], "%Y/%m/%d"))
+        if date_of_birth > current_date:
             raise ValueError("Birth date out of range")
 
         # Check valid gender
@@ -118,7 +120,7 @@ class Child:
 
         # Check valid blood type
         if "blood_type" in d:
-            if not d["blood_type"] in __blood_types:
+            if not d["blood_type"] in _blood_types:
                 raise ValueError("Invalid blood type specified")
 
         # Check last_seen dictionary
@@ -128,14 +130,14 @@ class Child:
 
             # Verify location, get latitude and longitude and localize lastseen_date to the timezone in reported ares
             geolocator = Nominatim(user_agent="http")
-            location = geolocator.geocode("%s, %s", d["last_seen"]["city"], d["last_seen"]["country"])
+            location = geolocator.geocode(f"{d['last_seen']['city']}, {d['last_seen']['country']}")
             obj = TimezoneFinder()
             local_timezone = obj.timezone_at(lng=location.longitude, lat=location.latitude)
             local_timezone = pytz.timezone(local_timezone)
             lastseen_date = local_timezone.localize(lastseen_date)
 
             # Verify that the last seen date is within the correct range
-            if lastseen_date <= birth_date or lastseen_date >= current_date:
+            if lastseen_date <= date_of_birth or lastseen_date >= current_date:
                 raise ValueError("Invalid last seen date")
 
             # After data has been verified and preprocessed save
@@ -149,7 +151,7 @@ class Child:
             first_name=d["first_name"],
             last_name=d["last_name"],
             translated_name=d["translated_name"] if "translated_name" in d and d["translated_name"] else None,
-            date_of_birth=birth_date,
+            date_of_birth=date_of_birth,
             gender=d["gender"],
             nationality=d["nationality"],
             blood_type=d["blood_type"] if "blood_type" in d and d["blood_type"] else None,
