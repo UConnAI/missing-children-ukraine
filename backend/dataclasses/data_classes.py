@@ -1,4 +1,3 @@
-# FUNCTIONAL NEW KID
 from dataclasses import dataclass
 from datetime import datetime
 import pytz
@@ -12,53 +11,59 @@ __blood_types = {"A-", "A+", "B+", "B-", "O-", "O+", "AB+", "AB-"}
 
 @dataclass
 class Reporter:
-    """Dataclass for information about the reporter of the incident
-
-    :param first_name: First name of the reporterrating CodeGenX to more powerful hardware. This will improve inference time and make the service a lot faster. CodeGenX
-    :type first_name: str
-    :param last_name: Last name of the reporter
-    :type last_name: str
-    :param relationship: Relationship of the reporter to the victim
-    :type relationship: str
-    :param nationality: Nationality of the Reporter
-    :type nationality: str
-    :param country_residence: Current Residence of the Reporter
-    :type country_residence: str
-    :param phone_number: Phone number of the reporter
-    :type phone_number: str
-    :param translated_name: Translated name of the reporter to English
-    :type translated_name: str
-    :param phone_number_2: Second phone number of the reporter
-    :type phone_number_2: str
-    :param email: Email of the reporter
-    :type email: Optional[str]
-
-    :return: None
-    :rtype: None
     """
+    Dataclass for information about the reporter of the incident
 
-    #  if you are wondering why some args are out of order, @charitarthchugh changed because fields without default values should appear after fields with default values
+    :param first_name: First name of the reporter
+    :param last_name: Last name of the reporter
+    :param translated_name: Translated name of the reporter to English
+    :param date_of_birth: Date of birth of the reporter
+    :param nationality: Nationality of the Reporter
+    :param country_residence: Current Residence of the Reporter
+    :param phone_number: Phone number of the reporter
+    :param phone_number_2: Second phone number of the reporter
+    :param email: Email of the reporter
+    :param relationship: Relationship of the reporter to the victim
+    """
     first_name: str
     last_name: str
-    relationship: str
+    translated_name: Optional[str] = None
     date_of_birth: datetime
     nationality: str
     country_residence: str
     phone_number: str
-    translated_name: Optional[str] = None
     phone_number_2: Optional[str] = None
     email: Optional[str] = None
+    relationship: str
 
     @staticmethod
     def from_dict(d: Dict[str, Any]):
-        """Generate a Reporter class from a dictionary
-
-        :param d: Dictionary with the named parameters to init Reporter as keys
-        :type d: Dict[str, Any]
-        :return: a Reporter class with
-        :rtype: _type_
         """
-        return Reporter(**d)
+        Generate a Reporter class from a dictionary
+
+        :param d: Dictionary with all of the infomration needed to populate reporter
+        :return: a properly populated Reporter class
+        """
+
+        current_date = pytz.utc.localize(datetime.today())
+
+        # Validating date of birth
+        date_of_birth = pytz.utc.localize(datetime.strptime(d["date_of_birth"], "%Y/%m/%d"))
+        if date_of_birth > current_date:
+            raise ValueError("Birth date out of range")
+
+        return Reporter(
+            first_name=d["first_name"],
+            last_name=d["last_name"],
+            translated_name=d["translated_name"],
+            date_of_birth=date_of_birth,
+            nationality=d["nationality"],
+            country_residence=d["country_residence"],
+            phone_number=d["phone_number"],
+            phone_number_2=d["phone_number_2"] if "phone_number_2" in d and d["phone_number_2"] else None,
+            email=d["email"] if "email" in d and d["email"] else None,
+            relationship=d["relationship"]
+        )
 
 
 @dataclass
@@ -67,7 +72,6 @@ class Child:
     Dataclass for information about reported
 
     :param first_name: Child's first name
-    :type
     :param last_name: Child's last name
     :param  translated_name: Child's Tranaslated name to english
     :param date_birth:  Date of Birth of Child in python's datetime format
@@ -82,20 +86,31 @@ class Child:
 
     first_name: str
     last_name: str
+    translated_name: Optional[str] = None
     date_of_birth: datetime
     gender: str
     nationality: str
-    reported: str
-    last_seen: Dict[str, Any]
-    translated_name: Optional[str] = None
     blood_type: Optional[str] = None
+    reported: bool
+    last_seen: Dict[str, Any]
     comment: Optional[str] = None
     picture: Optional[Any] = None
 
     @staticmethod
     def from_dict(d: Dict[str, Any]):
+        """
+        Create a Child class from the specific dictionary
+
+        :param d: the dictionary containing all of the information needed
+        :return: a Child class with the information from the dictionary
+        """
+
         current_date = pytz.utc.localize(datetime.today())
-        birth_date = pytz.utc.localize(datetime.strptime(d["date_birth"], "%Y.%m.%d"))
+
+        # Validate birth date
+        birth_date = pytz.utc.localize(datetime.strptime(d["date_birth"], "%Y/%m/%d"))
+        if birth_date > current_date:
+            raise ValueError("Birth date out of range")
 
         # Check valid gender
         if not (d["gender"] == "male" or d["gender"] == "female"):
@@ -106,65 +121,53 @@ class Child:
             if not d["blood_type"] in __blood_types:
                 raise ValueError("Invalid blood type specified")
 
-        # Check last_seen dionary
-        if (
-            "date" in d["last_seen"]
-            and "country" in d["last_seen"]
-            and "city" in d["last_seen"]
-        ):
-            lastseen_date = pytz.utc.localize(
-                datetime.strptime(d["last_seen"]["date"], "%Y.%m.%d")
-            )
+        # Check last_seen dictionary
+        last_seen = {}
+        if "date" in d["last_seen"] and "country" in d["last_seen"] and "city" in d["last_seen"]:
+            lastseen_date = datetime.strptime(d["last_seen"]["date"], "%Y/%m/%d %H:%M:%S")
+
+            # Verify location, get latitude and longitude and localize lastseen_date to the timezone in reported ares
+            geolocator = Nominatim(user_agent="http")
+            location = geolocator.geocode("%s, %s", d["last_seen"]["city"], d["last_seen"]["country"])
+            obj = TimezoneFinder()
+            local_timezone = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+            local_timezone = pytz.timezone(local_timezone)
+            lastseen_date = local_timezone.localize(lastseen_date)
+
+            # Verify that the last seen date is within the correct range
             if lastseen_date <= birth_date or lastseen_date >= current_date:
                 raise ValueError("Invalid last seen date")
 
-            # Check country/city is valid
-            #Assuming country is already validated from front-end
-            
+            # After data has been verified and preprocessed save
+            last_seen = {
+                "date": lastseen_date,
+                "country": d["last_seen"]["country"],
+                "city": d["last_seen"]["city"]
+            }
 
-            # initialize Nominatim API
-            geolocator = Nominatim(user_agent="http")
-            # getting Latitude and Longitude
-            location = geolocator.geocode("%s, %s", d["last_seen"]["city"], d["last_seen"]["country"])
-            # pass the Latitude and Longitude into a timezone_at and it returns timezone
-            obj = TimezoneFinder()
-            # returns timezone (e.g 'Europe/Berlin' or 'Europe/Kyiv')
-            #string containing timezone
-            local_timezone = obj.timezone_at(lng=location.longitude, lat=location.latitude)
-            #Pytz timezone object
-            local_timezone = pytz.timezone(local_timezone)
-            print(local_timezone)
-            #localizes last_seen datetime object to the local timezone (TZ of closest city to area where child was last seen)
-            local_datetime = local_timezone.localize(lastseen_date)
-            #print(local_datetime)
-
-
-            
         return Child(
             first_name=d["first_name"],
             last_name=d["last_name"],
+            translated_name=d["translated_name"] if "translated_name" in d and d["translated_name"] else None,
             date_of_birth=birth_date,
             gender=d["gender"],
             nationality=d["nationality"],
+            blood_type=d["blood_type"] if "blood_type" in d and d["blood_type"] else None,
             reported=d["reported"],
-            last_seen=lastseen_date,
-            translated_name=(d["translated_name"] if d["translated_name"] else None),
-            blood_type=d["blood_type"],
-            comment=d["comment"],
-            picture=d["picture"],
+            last_seen=last_seen,
+            comment=d["comment"] if "comment" in d and d["comment"] else None,
+            picture=d["picture"] if "picture" in d and d["picture"] else None
         )
 
 
 @dataclass
 class Event:
-    """Dataclass for information about the event
-    :param event_type: Type of event
-    :type event_type: int
-    :param reporter: Reporter of the event
-    :type reporter: Reporter
-    :param children: Children involved in the event
-    :type children: List[Child]
+    """
+    Dataclass for information about the event
 
+    :param event_type: Type of event
+    :param reporter: Reporter of the event
+    :param children: Children involved in the event
     """
 
     event_type: int
@@ -173,15 +176,14 @@ class Event:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]):
-        """Creates an Event Class from input dionary
+        """
+        Creates an Event Class from input dictionary
 
-        :param d: input dionry to parse
-        :type d: Dict[str, Any]
-        :return: An properly populated event class
-        :rtype: Event
+        :param d: input dictionary with the information about the event
+        :return: A properly populated Event class
         """
         return Event(
             event_type=d["event_type"],
-            reporter=Reporter.from_d(d["reporter"]),
-            children=[Child.from_d(c) for c in d["children"]],
+            reporter=Reporter.from_dict(d["reporter"]),
+            children=[Child.from_dict(c) for c in d["children"]],
         )
