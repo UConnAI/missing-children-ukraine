@@ -3,7 +3,8 @@ from dataclasses import dataclass
 from datetime import datetime
 import pytz
 from typing import Dict, Any, Optional, List
-import geocoder
+from geopy.geocoders import Nominatim
+from timezonefinder import TimezoneFinder
 
 
 __blood_types = {"A-", "A+", "B+", "B-", "O-", "O+", "AB+", "AB-"}
@@ -119,20 +120,26 @@ class Child:
 
             # Check country/city is valid
             #Assuming country is already validated from front-end
-
-            #geocoder object
-            input_city = geocoder.geonames(d["last_seen"]["city"], country=d["last_seen"]["city"], key='AiClub')
             
-            #local timezone id of the city closest to where child was last seen
-            city_timezone = input_city.timeZoneId
-            local_datetime = pytz.timezone(city_timezone)
-            print(local_datetime)
+
+            # initialize Nominatim API
+            geolocator = Nominatim(user_agent="http")
+            # getting Latitude and Longitude
+            location = geolocator.geocode("%s, %s", d["last_seen"]["city"], d["last_seen"]["country"])
+            # pass the Latitude and Longitude into a timezone_at and it returns timezone
+            obj = TimezoneFinder()
+            # returns timezone (e.g 'Europe/Berlin' or 'Europe/Kyiv')
+            #string containing timezone
+            local_timezone = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+            #Pytz timezone object
+            local_timezone = pytz.timezone(local_timezone)
+            print(local_timezone)
+            #localizes last_seen datetime object to the local timezone (TZ of closest city to area where child was last seen)
+            local_datetime = local_timezone.localize(lastseen_date)
+            #print(local_datetime)
 
 
-
-            # input_city = pytz.timezone(
-            #     d["last_seen"]["country"] + "/" + d["last_seen"]["city"]
-            # )
+            
         return Child(
             first_name=d["first_name"],
             last_name=d["last_name"],
