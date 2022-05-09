@@ -14,6 +14,9 @@ export default function Termsagreement() {
             <main className={styles.main}>
                 <p>File your report, and let Missing Children Europe’s experts alert the police and their contacts. They will get in touch with you to safely return your missing child or children as soon as they're found.</p>
                 <button className={styles.startBtn}>Next</button>
+                <Checkbox 
+                    label='Testing 1'
+                />
             </main>
         </div>
     )
