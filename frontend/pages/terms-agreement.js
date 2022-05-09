@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { Checkbox, Link } from '@mui/material'
 
 
 export default function Termsagreement() {
@@ -13,7 +14,15 @@ export default function Termsagreement() {
             </Head>
             <main className={styles.main}>
                 <p>File your report, and let Missing Children Europe’s experts alert the police and their contacts. They will get in touch with you to safely return your missing child or children as soon as they're found.</p>
-                <button className={styles.startBtn}>Next</button>
+                <Checkbox defaultChecked 
+                    sx={{
+                        color: 'darkblue',
+                        '&.Mui-checked': {
+                            color: 'darkblue'
+                        }
+                    }}
+                />
+                <button className={styles.startBtn}><Link href='/reporter-form'>Next</Link></button>
             </main>
         </div>
     )
