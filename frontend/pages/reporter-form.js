@@ -14,9 +14,6 @@ export default function ReporterForm() {
             </Head>
             <main>
                 <h2>Please tell us more about yourself.</h2>
-                {/* <FormControl>
-
-                </FormControl> */}
             </main>
         </div>
     )
