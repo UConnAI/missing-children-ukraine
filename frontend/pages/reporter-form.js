@@ -1,7 +1,12 @@
 import {
-    Box, FormControl,
-    InputLabel, MenuItem, Select, TextField
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
 } from "@mui/material";
+import { display } from "@mui/system";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
@@ -14,6 +19,7 @@ export default function ReporterForm() {
     setValue(newValue);
   };
   const [nationality, setNationality] = React.useState();
+  const [currentCountry, setCurrentCountry] = React.useState();
   return (
     <div>
       <Head>
@@ -34,6 +40,12 @@ export default function ReporterForm() {
           }}
           noValidate
           autoComplete="off"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           <TextField
             required
@@ -69,9 +81,7 @@ export default function ReporterForm() {
           *<span style={{ float: "left" }}>Nationality</span>
         </h3>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">
-            Nationality
-          </InputLabel>
+          <InputLabel id="demo-simple-select-label">Nationality</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -92,7 +102,7 @@ export default function ReporterForm() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={nationality}
+            value={currentCountry}
             label="Current Country of Residence"
             onChange={handleChange}
           >
@@ -100,8 +110,61 @@ export default function ReporterForm() {
           </Select>
         </FormControl>
         <h3>
-          *<span style={{ float: "left" }}>Phone Number</span>
+          *<span style={{ float: "left" }}>Phone Number 1</span>
         </h3>
+        <FormControl
+          fullWidth
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            width:"75%"
+          }}
+        >
+    
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={currentCountry}
+            label="Country Code"
+            onChange={handleChange}
+            style={{width:"4rem", textAlign:"left", justifyItems:"right"}}
+          >
+            <MenuItem value={"+380"}>+380</MenuItem>
+          </Select>
+          <TextField label="Number">Number</TextField>
+        </FormControl>
+        <h3>
+          *<span style={{ float: "left" }}>Phone Number 2</span>
+        </h3>
+        <FormControl
+          fullWidth
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            width:"75%"
+          }}
+        >
+    
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={currentCountry}
+            label="Country Code"
+            onChange={handleChange}
+            style={{width:"4rem", textAlign:"left", justifyItems:"right"}}
+          >
+            <MenuItem value={"+380"}>+380</MenuItem>
+          </Select>
+          <TextField label="Number">Number</TextField>
+        </FormControl>
+        <h3>
+          E-mail
+        </h3>
+        <TextField label="E-mail (optional)">Email</TextField>
       </main>
     </div>
   );
