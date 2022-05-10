@@ -5,6 +5,10 @@ import {
   MenuItem,
   Select,
   TextField,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
 import { display } from "@mui/system";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -119,24 +123,23 @@ export default function ReporterForm() {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            width:"75%"
+            width: "75%",
           }}
         >
-    
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={currentCountry}
             label="Country Code"
             onChange={handleChange}
-            style={{width:"4rem", textAlign:"left", justifyItems:"right"}}
+            style={{ width: "4rem", textAlign: "left", justifyItems: "right" }}
           >
             <MenuItem value={"+380"}>+380</MenuItem>
           </Select>
           <TextField label="Number">Number</TextField>
         </FormControl>
         <h3>
-          *<span style={{ float: "left" }}>Phone Number 2</span>
+          <span style={{ float: "left" }}>Phone Number 2</span>
         </h3>
         <FormControl
           fullWidth
@@ -145,26 +148,48 @@ export default function ReporterForm() {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            width:"75%"
+            width: "75%",
           }}
         >
-    
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={currentCountry}
             label="Country Code"
             onChange={handleChange}
-            style={{width:"4rem", textAlign:"left", justifyItems:"right"}}
+            style={{ width: "4rem", textAlign: "left", justifyItems: "right" }}
           >
             <MenuItem value={"+380"}>+380</MenuItem>
           </Select>
           <TextField label="Number">Number</TextField>
         </FormControl>
         <h3>
-          E-mail
+          <span style={{ float: "left" }}>Email</span>
         </h3>
         <TextField label="E-mail (optional)">Email</TextField>
+        <h3>
+          *<span style={{ float: "left" }}>Relationship</span>
+        </h3>
+        <FormControl>
+          <RadioGroup
+            row
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="female"
+            name="radio-buttons-group"
+          >
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Parent/Guardian"
+            />
+            <FormControlLabel
+              value="Sibling"
+              control={<Radio />}
+              label="Sibling"
+            />
+            {/* <FormControlLabel value="other" control={<Radio />} label="Other" /> */}
+          </RadioGroup>
+        </FormControl>
       </main>
     </div>
   );
