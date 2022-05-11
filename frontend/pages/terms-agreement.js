@@ -13,7 +13,7 @@ export default function Termsagreement() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main}>
-                <p>File your report, and let Missing Children Europe’s experts alert the police and their contacts. They will get in touch with you to safely return your missing child or children as soon as they're found.</p>
+                <p>File your report, and let Missing Children Europe's experts alert the police and their contacts. They will get in touch with you to safely return your missing child or children as soon as they're found.</p>
                 <Checkbox defaultChecked 
                     sx={{
                         color: 'darkblue',
