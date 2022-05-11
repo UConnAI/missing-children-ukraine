@@ -1,8 +1,8 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
-import styles from '../styles/Home.module.css'
-import { Button } from '@mui/material'
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import styles from "../styles/Home.module.css";
+import { Button } from "@mui/material";
 
 export default function Home() {
   return (
@@ -14,10 +14,16 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className={styles.mainTextContainer}>
-          <p className={styles.introText}>Report missing children through Sylnishi to alert Europe's Missing Children experts who will use their contacts with the local authorities and the Interpol to help you find your child. </p>
+          <p className={styles.introText}>
+            Report missing children through Sylnishi to alert Europe's Missing
+            Children experts who will use their contacts with the local
+            authorities and the Interpol to help you find your child.{" "}
+          </p>
         </div>
         <div className={styles.btnContainer}>
-          <button className={styles.startBtn}><Link href="/terms-agreement">Let's Start</Link></button>
+          <button className={styles.startBtn}>
+            <Link href="/terms-agreement">Let's Start</Link>
+          </button>
         </div>
       </main>
     </div>
@@ -78,5 +84,5 @@ export default function Home() {
     //     </a>
     //   </footer>
     // </div>
-  )
+  );
 }

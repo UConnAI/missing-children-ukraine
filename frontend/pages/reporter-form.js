@@ -202,7 +202,9 @@ export default function ReporterForm() {
           </RadioGroup>
         </FormControl>
         <div>
-          <Button variant="contained" href="">Next</Button>
+          <Button variant="contained" href="">
+            Next
+          </Button>
         </div>
       </main>
     </div>
