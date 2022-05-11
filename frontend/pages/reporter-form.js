@@ -162,7 +162,7 @@ export default function ReporterForm() {
             value={currentCountry}
             label="Country Code"
             onChange={handleChange}
-            style={{ width: "4rem", textAlign: "left", justifyItems: "right", marginTop: 18 }}
+            style={{ width: "4rem", marginTop: 18 }}
           >
             <MenuItem value={"+380"}>+380</MenuItem>
           </Select>
