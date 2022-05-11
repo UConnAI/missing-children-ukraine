@@ -7,15 +7,16 @@
 }
 
 .introText {
-  color: #111E6A;
+  color: #111e6a;
   font-size: 18px;
 }
 
 .startBtn {
   text-align: center;
   border-radius: 8px;
-  background: #1337B8;
-  box-shadow: 0px 0px 1px rgba(20, 20, 20, 0.08), 0px 1px 8px 2px rgba(20, 20, 20, 0.08);
+  background: #1337b8;
+  box-shadow: 0px 0px 1px rgba(20, 20, 20, 0.08),
+    0px 1px 8px 2px rgba(20, 20, 20, 0.08);
   width: 200px;
   height: 50px;
   color: white;
