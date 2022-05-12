@@ -2,6 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { Checkbox, Link } from "@mui/material";
+import Button from 'react-bootstrap/Button'
+
 
 export default function Termsagreement() {
   return (
@@ -17,18 +19,20 @@ export default function Termsagreement() {
           police and their contacts. They will get in touch with you to safely
           return your missing child or children as soon as they're found.
         </p>
-        <Checkbox
-          defaultChecked
-          sx={{
-            color: "darkblue",
-            "&.Mui-checked": {
+        <div>
+          <Checkbox
+            defaultChecked
+            sx={{
               color: "darkblue",
-            },
-          }}
-        />
-        <button className={styles.startBtn}>
-          <Link href="/reporter-form">Next</Link>
-        </button>
+              "&.Mui-checked": {
+                color: "darkblue",
+              },
+            }}
+          />
+        </div>
+        <Button variant='primary' className={styles.startBtn}>
+          Next
+        </Button>
       </main>
     </div>
   );
