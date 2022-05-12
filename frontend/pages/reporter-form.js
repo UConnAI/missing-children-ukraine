@@ -17,6 +17,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import Head from "next/head";
 import React from "react";
+import Link from "next/link"
+
+
 export default function ReporterForm() {
   const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
 
@@ -54,13 +57,13 @@ export default function ReporterForm() {
               required
               id="reporter-first-name"
               label="First Name"
-              variant="outlined"
+              variant="filled"
             />
             <TextField
               required
               id="reporter-last-name"
               label="Last Name"
-              variant="outlined"
+              variant="filled"
               style={{ marginLeft: 20 }}
             />
           </div>
@@ -69,7 +72,7 @@ export default function ReporterForm() {
             <TextField
               id="reporter-traslated-name"
               label="Translated Name (Optional)"
-              variant="outlined"
+              variant="filled"
               style={{ width: 470 }}
             />
           </div>
@@ -85,6 +88,7 @@ export default function ReporterForm() {
               value={value}
               onChange={handleChange}
               renderInput={(params) => <TextField {...params} />}
+              variant="filled"
             />
           </div>
         </LocalizationProvider>
@@ -139,11 +143,11 @@ export default function ReporterForm() {
             value={currentCountry}
             label="Country Code"
             onChange={handleChange}
-            style={{ width: "4rem", textAlign: "left", justifyItems: "right" }}
+            style={{ width: "6rem", textAlign: "left", justifyItems: "right" }}
           >
             <MenuItem value={"+380"}>+380</MenuItem>
           </Select>
-          <TextField style={{ marginLeft: 10 }} label="Number">
+          <TextField variant="filled" style={{ marginLeft: 10 }} label="Number">
             Number
           </TextField>
         </FormControl>
@@ -165,20 +169,27 @@ export default function ReporterForm() {
             value={currentCountry}
             label="Country Code"
             onChange={handleChange}
-            style={{ width: "4rem", marginTop: 18 }}
+            style={{ width: "6rem", marginTop: 18 }}
           >
             <MenuItem value={"+380"}>+380</MenuItem>
           </Select>
-          <TextField label="Number" style={{ marginLeft: 10, marginTop: 18 }}>
+          <TextField variant="filled" label="Number" style={{ marginLeft: 10, marginTop: 18 }}>
             Number
           </TextField>
         </FormControl>
         <h3>
           <span style={{ float: "left" }}>Email</span>
         </h3>
-
-        <TextField label="E-mail (optional)">Email</TextField>
-
+        <FormControl
+          fullWidth
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingTop: 10
+          }}
+        >
+          <TextField variant="filled" label="E-mail (optional)">Email</TextField>
+        </FormControl>
         <h3>
           *<span style={{ float: "left" }}>Relationship</span>
         </h3>
@@ -201,9 +212,9 @@ export default function ReporterForm() {
             />
           </RadioGroup>
         </FormControl>
-        <div>
+        <div style={{ paddingTop: 20 }}>
           <Button variant="contained" href="">
-            Next
+            <Link href="/missing-child-form">Next</Link>
           </Button>
         </div>
       </main>

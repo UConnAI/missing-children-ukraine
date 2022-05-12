@@ -1,11 +1,29 @@
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link"
 import styles from "../styles/Home.module.css";
-import { Checkbox, Link } from "@mui/material";
+import { Checkbox} from "@mui/material";
+import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
+import { set } from "date-fns";
 
 
 export default function Termsagreement() {
+
+  const [check, setChecked] = useState(false);
+  const [btnDisable, setDisabled] = useState();
+
+  const handleCheck = () => {
+    if(check) {
+      setChecked(false)
+      setDisabled("disabled");
+    }
+    else {
+      setChecked(true)
+      setDisabled(false)
+    }
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -19,9 +37,10 @@ export default function Termsagreement() {
           police and their contacts. They will get in touch with you to safely
           return your missing child or children as soon as they're found.
         </p>
-        <div>
+        <div style={{ flexDirection: 'row', display: 'flex' }}>
           <Checkbox
-            defaultChecked
+            checked={check}
+            onChange={handleCheck}
             sx={{
               color: "darkblue",
               "&.Mui-checked": {
@@ -29,9 +48,13 @@ export default function Termsagreement() {
               },
             }}
           />
+          <p style={{ color: 'gray' }}>
+            I certify that I have read and accept 
+            the Terms of Use and the Privacy Statement.
+          </p>
         </div>
         <Button variant='primary' className={styles.startBtn}>
-          Next
+          <Link href="/reporter-form">Next</Link>
         </Button>
       </main>
     </div>
