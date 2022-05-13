@@ -9,9 +9,8 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-  Button,
 } from "@mui/material";
-import { display } from "@mui/system";
+import Button from 'react-bootstrap/Button'
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
@@ -213,8 +212,8 @@ export default function ReporterForm() {
           </RadioGroup>
         </FormControl>
         <div style={{ paddingTop: 20 }}>
-          <Button variant="contained" href="">
-            <Link href="/missing-child-form">Next</Link>
+          <Button fullwidth variant="primary" size="lg" href="">
+            Next
           </Button>
         </div>
       </main>
