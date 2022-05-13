@@ -37,7 +37,7 @@ export default function Termsagreement() {
           police and their contacts. They will get in touch with you to safely
           return your missing child or children as soon as they're found.
         </p>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
           <Checkbox
             checked={check}
             onChange={handleCheck}
@@ -53,9 +53,8 @@ export default function Termsagreement() {
             the Terms of Use and the Privacy Statement.
           </p>
         </div>
-        <Button variant='primary' className={styles.startBtn}>
-          <Link href="/reporter-form">Next</Link>
-            {/* Next */}
+        <Button href="/reporter-form" variant='primary' className={styles.startBtn}>
+            Next
         </Button>
       </main>
     </div>

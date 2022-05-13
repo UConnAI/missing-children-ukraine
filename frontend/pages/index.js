@@ -2,9 +2,12 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
-import { Button } from "@mui/material";
+import Button from 'react-bootstrap/Button'
+import { useRouter } from 'next/router'
 
 export default function Home() {
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -21,9 +24,7 @@ export default function Home() {
           </p>
         </div>
         <div className={styles.btnContainer}>
-          <button className={styles.startBtn}>
-            <Link href="/terms-agreement">Let's Start</Link>
-          </button>
+          <Button href="/terms-agreement" variant="primary" className={styles.startBtn}> Let's Start </Button>
         </div>
       </main>
     </div>
