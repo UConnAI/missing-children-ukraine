@@ -1,7 +1,0 @@
-env/
-testing/
-*__pycache__*
-test*
-*.out
-*.in
-*.zip
