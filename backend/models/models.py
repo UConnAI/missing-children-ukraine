@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 import pytz
-from typing import Dict, Any, Optional, List
 from geopy.geocoders import Nominatim
 from timezonefinder import TimezoneFinder
-
 
 _blood_types = {"A-", "A+", "B+", "B-", "O-", "O+", "AB+", "AB-"}
 

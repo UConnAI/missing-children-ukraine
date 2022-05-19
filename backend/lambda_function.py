@@ -1,6 +1,7 @@
 import json
-import boto3
 from typing import Any, Dict
+
+import boto3
 
 from manager.load_config import CONFIG
 

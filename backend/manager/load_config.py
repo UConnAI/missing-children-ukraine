@@ -1,7 +1,8 @@
-import yaml
 import os
-import boto3
 from base64 import b64decode
+
+import boto3
+import yaml
 
 # Local flag to know if local config.yaml was loaded
 __read_local = False

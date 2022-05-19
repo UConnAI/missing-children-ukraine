@@ -1,9 +1,11 @@
 import urllib.parse
 from datetime import datetime
 from typing import List
+
 import pymongo
 
-from models.models import SurveyData, ScheduleData
+from models.models import ScheduleData, SurveyData
+
 
 #Mongo client
 class MongoClient():
