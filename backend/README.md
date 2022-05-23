@@ -102,3 +102,4 @@ Install the requirements from the requirements.txt file
 ```
 python -m pip install -r requirements.txt
 ```
+additional install instructions for windows10 git
